@@ -85,6 +85,11 @@ namespace App_comunicacao_escolar.Models
             .WithOne(d => d.Turma)
             .OnDelete(DeleteBehavior.SetNull);
 
+             modelBuilder.Entity<Agenda>()
+            .HasMany(a => a.EventosDaAgenda)
+            .WithOne(e => e.Agenda)
+            .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<EventoDaAgenda>()
             .HasMany(e => e.Autorizacoes)
             .WithOne(a => a.Evento)
@@ -99,6 +104,11 @@ namespace App_comunicacao_escolar.Models
             .HasMany(n => n.NotificacoesLidas)
             .WithOne(nl => nl.Notificacao)
             .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Usuario>()
+            .HasMany(u => u.NotificacoesLidas)
+            .WithOne(n => n.Usuario)
+            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AlunoLinhaDoTempo>()
             .HasMany(a => a.Postagens)
@@ -109,6 +119,16 @@ namespace App_comunicacao_escolar.Models
             .HasMany(p => p.Comentarios)
             .WithOne(c => c.Postagem)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Usuario>()
+            .HasMany(u => u.PostagensLinhaDoTempo)
+            .WithOne(p => p.Autor)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Usuario>()
+            .HasMany(u => u.ComentariosPostagensLinhaDoTempo)
+            .WithOne(c => c.Autor)
+            .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
